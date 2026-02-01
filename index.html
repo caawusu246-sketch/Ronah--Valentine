@@ -21,7 +21,7 @@ overflow: hidden;
 
 h1 {
 color: #fff;
-margin-bottom: 20px;
+margin-bottom: 15px;
 text-shadow: 1px 1px 5px rgba(0,0,0,0.3);
 padding: 0 10px;
 }
@@ -30,62 +30,20 @@ p {
 color: #fff;
 font-size: 18px;
 max-width: 500px;
-margin: 0 20px 30px;
+margin: 0 20px 20px;
 line-height: 1.4;
 }
 
-.buttons {
-position: relative;
-width: 280px;
-height: 150px;
-}
-
-button {
-padding: 14px 26px;
-font-size: 18px;
-border: none;
-border-radius: 10px;
-cursor: pointer;
-}
-
-#yesBtn {
-background-color: #ff4d6d;
-color: white;
-position: absolute;
-left: 20px;
-top: 50px;
-}
-
-#noBtn {
+#musicBtn {
 background-color: #fff;
-color: #333;
-position: absolute;
-right: 20px;
-top: 50px;
-}
-
-/* Floating hearts */
-.heart {
-position: absolute;
-bottom: -20px;
-font-size: 20px;
-animation: floatUp linear infinite;
-opacity: 0.8;
-}
-
-@keyframes floatUp {
-from {
-transform: translateY(0);
-opacity: 1;
-}
-to {
-transform: translateY(-100vh);
-opacity: 0;
-}
-}
-</style>
-</head>
-<body>
+border: none;
+padding: 10px 20px;
+border-radius: 20px;
+font-size: 16px;
+cursor: pointer;
+margin-bottom: 20px;
+<!-- Music Button -->
+<button id="musicBtn" onclick="startMusic()">Tap to start music 🎵</button>
 
 <!-- Background Music -->
 <audio id="bgMusic" loop>
@@ -102,41 +60,53 @@ I’d love to make this Valentine’s Day a small, sweet moment just for us. �
 
 <div class="buttons">
 <button id="yesBtn" onclick="sayYes()">Yes 💖</button>
-<button id="noBtn" onmouseover="moveNo()">No 😢</button>
+<button id="noBtn">No 😢</button>
 </div>
 
 <script>
-// Try to play music after user interacts (mobile-friendly)
-document.body.addEventListener("click", () => {
+function startMusic() {
 const music = document.getElementById("bgMusic");
-if (music.paused) {
 music.play().catch(() => {});
-}
-}, { once: true });
-
-function moveNo() {
-const noBtn = document.getElementById("noBtn");
-const container = document.querySelector(".buttons");
-
-const maxX = container.clientWidth - noBtn.clientWidth;
-const maxY = container.clientHeight - noBtn.clientHeight;
-
-const randomX = Math.floor(Math.random() * maxX);
-const randomY = Math.floor(Math.random() * maxY);
-
-noBtn.style.left = randomX + "px";
-noBtn.style.top = randomY + "px";
+document.getElementById("musicBtn").style.display = "none";
 }
 
 function sayYes() {
 document.body.innerHTML = `
 <h1 style="color:white;">Thank you, Ronah 💕</h1>
 <p style="color:white; font-size: 20px;">
-This really made me smile. I’m excited to keep getting to know you
-and hopefully meet you soon. 🌸
+This really made me happy.<br>
+I can’t wait to finally meet you and create some beautiful moments together. 🌸
 </p>
 `;
 }
+
+// Make the "No" button super slippery
+const noBtn = document.getElementById("noBtn");
+const container = document.querySelector(".buttons");
+
+container.addEventListener("mousemove", (e) => {
+const rect = noBtn.getBoundingClientRect();
+const offset = 50; // distance to trigger escape
+
+const mouseX = e.clientX;
+const mouseY = e.clientY;
+
+if (
+mouseX > rect.left - offset &&
+mouseX < rect.right + offset &&
+mouseY > rect.top - offset &&
+mouseY < rect.bottom + offset
+) {
+const maxX = container.clientWidth - noBtn.clientWidth;
+const maxY = container.clientHeight - noBtn.clientHeight;
+
+const randomX = Math.random() * maxX;
+const randomY = Math.random() * maxY;
+
+noBtn.style.left = randomX + "px";
+noBtn.style.top = randomY + "px";
+}
+});
 
 // Floating hearts generator
 function createHeart() {
