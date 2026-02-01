@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Ronah, Will You Be My Valentine? 💖</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<style>
+body {
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+min-height: 100vh;
+margin: 0;
+font-family: Arial, sans-serif;
+background: linear-gradient(to right, #ff9a9e, #fad0c4);
+text-align: center;
+overflow: hidden;
+}
+
+h1 {
+color: #fff;
+margin-bottom: 20px;
+text-shadow: 1px 1px 5px rgba(0,0,0,0.3);
+padding: 0 10px;
+}
+
+p {
+color: #fff;
+font-size: 18px;
+max-width: 500px;
+margin: 0 20px 30px;
+line-height: 1.4;
+}
+
+.buttons {
+position: relative;
+width: 280px;
+height: 150px;
+}
+
+button {
+padding: 14px 26px;
+font-size: 18px;
+border: none;
+border-radius: 10px;
+cursor: pointer;
+}
+
+#yesBtn {
+background-color: #ff4d6d;
+color: white;
+position: absolute;
+left: 20px;
+top: 50px;
+}
+
+#noBtn {
+background-color: #fff;
+color: #333;
+position: absolute;
+right: 20px;
+top: 50px;
+}
+
+/* Floating hearts */
+.heart {
+position: absolute;
+bottom: -20px;
+font-size: 20px;
+animation: floatUp linear infinite;
+opacity: 0.8;
+}
+
+@keyframes floatUp {
+from {
+transform: translateY(0);
+opacity: 1;
+}
+to {
+transform: translateY(-100vh);
+opacity: 0;
+}
+}
+</style>
+</head>
+<body>
+
+<!-- Background Music -->
+<audio id="bgMusic" loop>
+<source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_7bcd1c59c3.mp3?filename=romantic-piano-112191.mp3" type="audio/mpeg">
+</audio>
+
+<h1>Ronah, will you be my Valentine? 💘</h1>
+
+<p>
+We haven’t known each other for very long, and we haven’t even met yet,
+but I already really enjoy talking to you and getting to know you.
+I’d love to make this Valentine’s Day a small, sweet moment just for us. 🌷
+</p>
+
+<div class="buttons">
+<button id="yesBtn" onclick="sayYes()">Yes 💖</button>
+<button id="noBtn" onmouseover="moveNo()">No 😢</button>
+</div>
+
+<script>
+// Try to play music after user interacts (mobile-friendly)
+document.body.addEventListener("click", () => {
+const music = document.getElementById("bgMusic");
+if (music.paused) {
+music.play().catch(() => {});
+}
+}, { once: true });
+
+function moveNo() {
+const noBtn = document.getElementById("noBtn");
+const container = document.querySelector(".buttons");
+
+const maxX = container.clientWidth - noBtn.clientWidth;
+const maxY = container.clientHeight - noBtn.clientHeight;
+
+const randomX = Math.floor(Math.random() * maxX);
+const randomY = Math.floor(Math.random() * maxY);
+
+noBtn.style.left = randomX + "px";
+noBtn.style.top = randomY + "px";
+}
+
+function sayYes() {
+document.body.innerHTML = `
+<h1 style="color:white;">Thank you, Ronah 💕</h1>
+<p style="color:white; font-size: 20px;">
+This really made me smile. I’m excited to keep getting to know you
+and hopefully meet you soon. 🌸
+</p>
+`;
+}
+
+// Floating hearts generator
+function createHeart() {
+const heart = document.createElement("div");
+heart.className = "heart";
+heart.innerHTML = "💖";
+heart.style.left = Math.random() * 100 + "vw";
+heart.style.animationDuration = 3 + Math.random() * 4 + "s";
+heart.style.fontSize = 14 + Math.random() * 20 + "px";
+
+document.body.appendChild(heart);
+
+setTimeout(() => {
+heart.remove();
+}, 7000);
+}
+
+setInterval(createHeart, 400);
+</script>
+
+</body>
+</html>
