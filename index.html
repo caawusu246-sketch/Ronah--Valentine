@@ -69,7 +69,7 @@
     #noBtn {
       background-color: #fff;
       color: #333;
-      right: 20px;
+      left: 150px;
       top: 50px;
     }
 
@@ -134,20 +134,32 @@
       `;
     }
 
-    // Chaotic "No" button: teleports randomly every 50ms
+    // Make the "No" button move around the Yes button but never on it
     const noBtn = document.getElementById("noBtn");
+    const yesBtn = document.getElementById("yesBtn");
     const container = document.querySelector(".buttons");
 
     setInterval(() => {
       const maxX = container.clientWidth - noBtn.clientWidth;
       const maxY = container.clientHeight - noBtn.clientHeight;
 
-      const randomX = Math.random() * maxX;
-      const randomY = Math.random() * maxY;
+      const yesRect = yesBtn.getBoundingClientRect();
+      const containerRect = container.getBoundingClientRect();
+
+      let randomX, randomY;
+      do {
+        randomX = Math.random() * maxX;
+        randomY = Math.random() * maxY;
+      } while (
+        randomX + noBtn.clientWidth > yesRect.left - containerRect.left &&
+        randomX < yesRect.right - containerRect.left &&
+        randomY + noBtn.clientHeight > yesRect.top - containerRect.top &&
+        randomY < yesRect.bottom - containerRect.top
+      );
 
       noBtn.style.left = randomX + "px";
       noBtn.style.top = randomY + "px";
-    }, 50); // moves every 50ms
+    }, 50); // moves constantly
 
     // Floating hearts generator
     function createHeart() {
